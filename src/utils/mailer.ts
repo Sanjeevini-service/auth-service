@@ -6,6 +6,9 @@ async function sendEmail(payload: SendMailOptions): Promise<boolean> {
   try {
     const senderEmail = config.get("senderEmail");
     const senderEmailPassword = config.get("senderEmailPassword");
+    console.log("sendEmail start");
+    console.log("senderEmail===========", senderEmail);
+    console.log("senderEmailPassword===========", senderEmailPassword);
 
     // const transporter = nodemailer.createTransport(
     //   `smtp://${senderEmail}:${senderEmailPassword}@smtp-mail.outlook.com`
@@ -28,6 +31,7 @@ async function sendEmail(payload: SendMailOptions): Promise<boolean> {
     log.info("Email sent successfully");
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 }
