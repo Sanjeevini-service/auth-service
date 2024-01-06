@@ -22,7 +22,8 @@ export default class AdminController extends BaseController {
     try {
       const failedMessage = "Invalid email or password";
       // Check existing admin
-      const admin = (await this.service.getAdmin({ email: req.body.email })) as AdminSI;
+      const responseData = await this.service.getAdminByEmail(req.body.email);
+      const admin = responseData.data.data;
       if (!admin) {
         sendResponse(res, 403, false, null, failedMessage);
         return;

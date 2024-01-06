@@ -4,6 +4,7 @@ import BaseController from "./base.controller";
 import sendResponse from "../utils/sendResponse";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
+import axios from "axios";
 
 @autoInjectable()
 export default class UserController extends BaseController {
@@ -17,7 +18,9 @@ export default class UserController extends BaseController {
     try {
       const failedMessage = "Invalid email or password";
       // Check existing user
-      const user = await this.service.getUser({ email: req.body.email });
+
+      const response = await this.service.getUserByEmail(req.body.email);
+      const user = response.data.data;
       if (!user) {
         sendResponse(res, 403, false, null, failedMessage);
         return;

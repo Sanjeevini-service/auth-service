@@ -5,13 +5,16 @@ import BaseService from "./base.service";
 
 import { signJwt } from "../utils/jwt";
 import config from "config";
+import { httpRequest } from "../utils/httpRequest";
 
 @injectable()
 export default class AdminService<T> extends BaseService<AdminSI> {
   constructor(modelI?: AdminModel) {
     super(modelI);
   }
-
+  getAdminByEmail = async (email: string) => {
+    return httpRequest("POST", "/admin", { email });
+  };
   getAdmin = async (data: T): Promise<T> => {
     console.log(data);
     const admin: any = {

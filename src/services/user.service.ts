@@ -4,6 +4,8 @@ import UserModel from "../models/user.model";
 import BaseService from "./base.service";
 import { signJwt } from "../utils/jwt";
 import config from "config";
+import axios from "axios";
+import { httpRequest } from "../utils/httpRequest";
 
 @injectable()
 export default class UserService<T> extends BaseService<UserSI> {
@@ -11,17 +13,8 @@ export default class UserService<T> extends BaseService<UserSI> {
     super(modelI);
   }
 
-  getUser = async (data: T): Promise<T> => {
-    console.log(data);
-    const user: any = {
-      firstName: "Vinayak",
-      lastName: "Naik",
-      email: "vinayaknaik2403@gmail.com",
-      role: "user --fake response",
-      password: "$2b$10$pOlMhmTuExQtPH1HBivORu95PcduOVXlFwDGF.qR67tBORws58i7u",
-      balance: 0,
-    };
-    return user;
+  getUserByEmail = async (email: string) => {
+    return httpRequest("POST", "/user", { email });
   };
 
   signAccessToken = async (user: UserSI) => {

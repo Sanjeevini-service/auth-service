@@ -23,6 +23,17 @@ export const createUserSchema = object({
   }),
 });
 
+export const loginUserSchema = object({
+  body: object({
+    email: string({
+      required_error: "Email is required",
+    }).email("Invalid email or password"),
+    password: string({
+      required_error: "Password is required",
+    }).min(6, "Password is too short - should be min 6 chars"),
+  }),
+});
+
 export const verifyUserSchema = object({
   params: object({
     id: string(),
