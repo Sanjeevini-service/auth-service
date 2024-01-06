@@ -1,17 +1,17 @@
-// src/middleware/errorHandler.ts
-import { Request, Response } from "express";
-import AppError from "./app-error";
 import logger from "../../utils/logger";
+import sendResponse from "../../utils/sendResponse";
 
-const errorHandler = (err: Error, req: Request, res: Response) => {
-  if (err instanceof AppError) {
-    // Handle application-specific errors
-    return res.status(err.statusCode).json({ error: err.message });
+const errorHandler = (error, req, res, next) => {
+  if (res.headersSent) {
+    return next(error);
   }
-
-  // Handle other types of errors
-  logger.error(err);
-  return res.status(500).json({ error: err.message });
+  if (error.message.startsWith("connect")) {
+    const failedEmailMessage = "Failed to communicate with user-service";
+    sendResponse(res, 400, false, null, failedEmailMessage);
+    return;
+  }
+  logger.info(error.message);
+  sendResponse(res, 500, false, null, "Internal Server Error");
 };
 
 export default errorHandler;

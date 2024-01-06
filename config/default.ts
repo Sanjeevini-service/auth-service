@@ -8,4 +8,5 @@ export default {
   refreshTokenExpiration: "1y",
   senderEmail: "",
   senderEmailPassword: "",
+  userServiceUrl: "http://localhost:4001",
 };

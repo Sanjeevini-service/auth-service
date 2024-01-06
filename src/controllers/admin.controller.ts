@@ -36,8 +36,8 @@ export default class AdminController extends BaseController {
       // Hash OTP
       const hash = (await bcrypt.hash(otp, 10)) as string;
 
-      // Add OTP to admin ddocument
-      (await this.service.findAdminAndUpdate({ email: admin.email }, { verificationCode: hash })) as AdminSI;
+      // Add OTP to admin ddocument updateAdminByEmail
+      await this.service.updateAdminByEmail(req.body.email, hash);
 
       // Create email template for OTP
       const template = generateEmailTemplateForOTP(admin.firstName, admin.lastName, otp);
@@ -54,6 +54,7 @@ export default class AdminController extends BaseController {
       if (!response) {
         const failedEmailMessage = "Failed to send OTP";
         sendResponse(res, 400, false, null, failedEmailMessage);
+        return;
       }
 
       // Send success response
@@ -68,7 +69,8 @@ export default class AdminController extends BaseController {
   verifyOTP = async (req: Request, res: Response, next: NextFunction) => {
     // Check existing admin
     try {
-      const admin = (await this.service.getAdmin({ email: req.body.email })) as AdminSI;
+      const responseData = await this.service.getAdminByEmail(req.body.email);
+      const admin = responseData.data.data;
       if (!admin) {
         const failedMessage = "Invalid email or password";
         sendResponse(res, 403, false, null, failedMessage);

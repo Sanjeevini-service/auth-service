@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const httpRequest = async (method: string, endpoint: string, data = {}) => {
+export const httpRequest = async (method: string, url: string, data = {}) => {
   const options = {
-    url: `http://localhost:4001/api${endpoint}`,
+    url,
     method,
     headers: {
       Accept: "application/json",

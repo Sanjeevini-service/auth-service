@@ -14,7 +14,8 @@ export default class UserService<T> extends BaseService<UserSI> {
   }
 
   getUserByEmail = async (email: string) => {
-    return httpRequest("POST", "/user", { email });
+    const userServiceUrl = config.get<string>("userServiceUrl");
+    return httpRequest("POST", `${userServiceUrl}/api/user`, { email });
   };
 
   signAccessToken = async (user: UserSI) => {

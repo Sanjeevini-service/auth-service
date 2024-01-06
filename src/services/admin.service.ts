@@ -13,8 +13,15 @@ export default class AdminService<T> extends BaseService<AdminSI> {
     super(modelI);
   }
   getAdminByEmail = async (email: string) => {
-    return httpRequest("POST", "/admin", { email });
+    const userServiceUrl = config.get<string>("userServiceUrl");
+    return httpRequest("POST", `${userServiceUrl}/api/admin`, { email });
   };
+
+  updateAdminByEmail = async (email: string, verificationCode: string) => {
+    const userServiceUrl = config.get<string>("userServiceUrl");
+    return httpRequest("PATCH", `${userServiceUrl}/api/admin/update`, { email, verificationCode });
+  };
+
   getAdmin = async (data: T): Promise<T> => {
     console.log(data);
     const admin: any = {

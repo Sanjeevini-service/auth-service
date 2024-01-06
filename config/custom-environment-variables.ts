@@ -5,4 +5,6 @@ export default {
   refreshTokenPublicKey: "REFRESH_PUBLIC_KEY",
   senderEmail: "SENDER_EMAIL",
   senderEmailPassword: "SENDER_EMAIL_PASSWORD",
+  port: "PORT",
+  userServiceUrl: "USER_SERVICE_URL",
 };
